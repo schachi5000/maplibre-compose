@@ -6,11 +6,13 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.mapbox.mapboxsdk.camera.CameraPosition
+import com.mapbox.mapboxsdk.geometry.LatLng
 import net.schacher.maplibrecompose.ui.composables.MapLibreMap
+import net.schacher.maplibrecompose.ui.composables.Options
 import net.schacher.maplibrecompose.ui.theme.MapLibreComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -32,7 +34,11 @@ fun Content() {
         ) {
             MapLibreMap(
                 modifier = Modifier.fillMaxSize(),
-                styleUrl = BuildConfig.MAP_STYLE_URL
+                options = Options(styleUrl = BuildConfig.MAP_STYLE_URL),
+                cameraPosition = CameraPosition.Builder()
+                    .target(LatLng(52.39, 9.72))
+                    .zoom(8.0)
+                    .build()
             )
         }
     }

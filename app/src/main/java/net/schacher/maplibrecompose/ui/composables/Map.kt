@@ -5,23 +5,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.WellKnownTileServer
+import com.mapbox.mapboxsdk.camera.CameraPosition
 import com.mapbox.mapboxsdk.maps.MapView
 
 @Composable
 fun MapLibreMap(
     modifier: Modifier = Modifier,
-    styleUrl: String
+    options: Options,
+    cameraPosition: CameraPosition? = null
 ) {
     AndroidView(
         modifier = modifier,
         factory = { context ->
-            Mapbox.getInstance(context, null, WellKnownTileServer.MapLibre)
+            Mapbox.getInstance(context, options.accessToken, options.tileServer)
             MapView(context).apply {
                 this.getMapAsync { mapboxMap ->
-                    mapboxMap.setStyle(styleUrl) {
-
+                    mapboxMap.setStyle(options.styleUrl) {
+                        cameraPosition?.let {
+                            mapboxMap.cameraPosition = it
+                        }
                     }
                 }
             }
         })
 }
+
+data class Options(
+    val styleUrl: String,
+    val accessToken: String = "",
+    val tileServer: WellKnownTileServer = WellKnownTileServer.MapLibre,
+)
