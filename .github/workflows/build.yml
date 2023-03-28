@@ -5,6 +5,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  MAP_STYLE_URL: ${{ secrets.MAP_STYLE_URL }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
